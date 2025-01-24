@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import userservice from '@/services/userservice';
 import type User from '@/types/user';
 import { ref } from 'vue';
 
@@ -50,8 +51,24 @@ const regFrom = ref<User>({
   confirm_password: '',
   role: 0
 })
-function onRegister() {
 
+const errorMessage = ref({
+  name: '',
+  email: '',
+  password: '',
+  confirm_password: '',
+})
+
+function onRegister() {
+  userservice.registerUser(regFrom.value)
+    .then((res) => {
+      console.log(res);
+
+    })
+    .catch((err) => {
+      //hibakezelés
+      errorMessage.value = err
+    })
 }
 
 
